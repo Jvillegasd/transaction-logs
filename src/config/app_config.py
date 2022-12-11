@@ -2,7 +2,7 @@ import os
 
 
 class Config:
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'dummy-key')
     DEBUG = False
 
 
