@@ -2,6 +2,14 @@
     "model": "src.models.transaction.Transaction",
     "records": [
         {
+            "id": "757259b6-8cc2-4f16-9d59-36159f674243",
+            "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
+            "name": "Initial amount",
+            "merchant": "Bank",
+            "transaction_type": "deposit",
+            "amount": 200000
+        },
+        {
             "id": "47e6456b-0f43-4119-8b51-0662cad89362",
             "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
             "name": "Netflix subscription - Nov",
