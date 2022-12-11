@@ -10,18 +10,30 @@ class DataImporter:
     def __init__(self):
         self.dal = DataAccessLayer()
         self.pwd = os.path.abspath(os.path.dirname(__file__))
-        self.order_dir = os.path.abspath(
-            os.path.join(self.pwd, 'import_order.json')
-        )
-        self.seeds_dir = os.path.abspath(os.path.join(self.pwd, 'seeds'))
-        seeds_files = os.listdir(self.seeds_dir)
 
-        self.seeds: dict[str, dict] = {}
+        self.seeds: dict[str, dict] = self._load_seeds()
+        self.import_order: dict = self._load_import_order()
+
+    def _load_seeds(self) -> dict[str, dict]:
+        seeds: dict[str, dict] = {}
+        seeds_dir = os.path.abspath(os.path.join(self.pwd, 'seeds'))
+        seeds_files = os.listdir(seeds_dir)
+
         for file_name in seeds_files:
-            file = os.path.abspath(os.path.join(self.seeds_dir, file_name))
+            file = os.path.abspath(os.path.join(seeds_dir, file_name))
 
             with open(file, 'r') as f:
-                self.seeds[file_name[:-5]] = json.load(f)
+                seeds[file_name[:-5]] = json.load(f)
 
-        with open(self.order_dir, 'r') as f:
-            self.import_order = json.load(f)
+        return seeds
+
+    def _load_import_order(self) -> dict:
+        import_order: dict = {}
+        order_dir = os.path.abspath(
+            os.path.join(self.pwd, 'import_order.json')
+        )
+
+        with open(order_dir, 'r') as f:
+            import_order = json.load(f)
+
+        return import_order
