@@ -1,6 +1,53 @@
 {
-    "model": "",
-    "records": {
-        
-    }
+    "model": "src.models.transaction.Transaction",
+    "records": [
+        {
+            "id": "47e6456b-0f43-4119-8b51-0662cad89362",
+            "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
+            "name": "Netflix subscription - Nov",
+            "merchant": "Netflix",
+            "transaction_type": "expense",
+            "amount": 2.0
+        },
+        {
+            "id": "1d0f6ed3-8cd3-412f-9b5e-64da860ed783",
+            "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
+            "name": "Netflix subscription - Dec",
+            "merchant": "Netflix",
+            "transaction_type": "expense",
+            "amount": 2.0
+        },
+        {
+            "id": "57bec51a-d060-4ad3-b68f-cd57085b7ba5",
+            "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
+            "name": "Prime video",
+            "merchant": "Amazon",
+            "transaction_type": "expense",
+            "amount": 5.6
+        },
+        {
+            "id": "28e01f97-54b8-44c7-935f-e0fe661e2178",
+            "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
+            "name": "Deposit salary",
+            "merchant": "Some business",
+            "transaction_type": "deposit",
+            "amount": 150000
+        },
+        {
+            "id": "cd41b1d6-1534-4a44-9e7e-c36ceb557cd2",
+            "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
+            "name": "Freelancing",
+            "merchant": "Paypal",
+            "transaction_type": "deposit",
+            "amount": 20000
+        },
+        {
+            "id": "6aee7d28-b663-4914-9b59-3e89a2b4fd05",
+            "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
+            "name": "Bills",
+            "merchant": null,
+            "transaction_type": "withdraw",
+            "amount": 20000
+        }
+    ]
 }
