@@ -33,7 +33,7 @@ class DataImporter:
 
             with open(file, 'r') as f:
                 seed_dict = json.load(f)
-                seeds[seed_dict['model_name']] = seed_dict
+                seeds[seed_dict['model']] = seed_dict
 
         return seeds
 
