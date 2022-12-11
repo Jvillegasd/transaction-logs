@@ -41,3 +41,6 @@ class DataAccessLayer:
             raise e
         finally:
             db.close()
+
+    def create_tables(self):
+        Base.metadata.create_all(self.engine)

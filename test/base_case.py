@@ -7,7 +7,7 @@ class BaseCase:
     @classmethod
     def setup_class(cls):
         cls._import_api()
-        cls._dal = DataAccessLayer()
+        cls.dal = DataAccessLayer()
         cls.importer = DataImporter()
         cls.importer.clear_all_models()
 
