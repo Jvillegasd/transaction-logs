@@ -19,6 +19,11 @@ class TransactionType(enum.Enum):
     expense='expense'
 
 
+class TransactionStatus(enum.Enum):
+    acepted='acepted'
+    rejected='rejected'
+
+
 class Transaction(BaseModel):
     __tablename__ = 'transactions'
 
@@ -28,6 +33,11 @@ class Transaction(BaseModel):
     transaction_type = Column(
         Enum(TransactionType),
         default=TransactionType.deposit,
+        nullable=False
+    )
+    status = Column(
+        Enum(TransactionStatus),
+        default=TransactionStatus.acepted,
         nullable=False
     )
     amount = Column(Float, nullable=False)

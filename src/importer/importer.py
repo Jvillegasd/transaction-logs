@@ -2,7 +2,11 @@ import os
 import json
 from importlib import import_module
 
+from src.models.base import BaseModel
 from src.connection.database import DataAccessLayer
+from src.models.transaction import TransactionStatus
+
+from sqlalchemy.orm.session import Session
 
 
 class DataImporter:
@@ -56,7 +60,50 @@ class DataImporter:
 
         return import_order
 
-    # TODO: Load transactions
+    def _load_transaction_model(
+        self,
+        data: dict,
+        model: BaseModel,
+        db: Session
+    ) -> list:
+        """Loads transaction model seeds and calculates
+        transaction status by checking if user has sufficient
+        funds at the moment this transaction occurs.
+
+        Args:
+            -   data: dict = Transaction seeds.
+            -   model: BaseModel = Transaction model.
+            -   db: Session = SQLAlchemy session.
+
+        Returns:
+            -   list = A list with the seeds of the model.
+        """
+
+        user_balance: dict[str, float] = {}
+        negative_types: set[str] = {'withdraw', 'expense'}
+
+        for i in range(len(data['records'])):
+            seed = data['records'][i]
+
+            user_id = seed['user_id']
+            if user_id not in user_balance:
+                user_balance[user_id] = 0.0
+
+            amount = seed['amount']
+            if seed['transaction_type'] in negative_types:
+                amount *= -1
+
+            if user_balance[user_id] + amount >= 0:
+                seed['status'] = TransactionStatus.acepted
+                user_balance[user_id] += amount
+            else:
+                seed['status'] = TransactionStatus.rejected
+
+            record = model(**seed)
+            db.add(record)
+            db.commit()
+
+        return data['records']
 
     def load_model(self, model_name: str) -> list:
         """Loads seeds to database for the provided
@@ -66,7 +113,7 @@ class DataImporter:
             -   model_name: str
 
         Returns:
-            -   list: A list with the seeds of the model.
+            -   list = A list with the seeds of the model.
         """
 
         data = self.seeds[model_name]
@@ -75,12 +122,27 @@ class DataImporter:
             module = import_module(module_name)
             model = getattr(module, class_name)
 
-            for seed in data['records']:
-                record = model(**seed)
-                db.add(record)
-                db.commit()
+            if model_name != 'transactions':
+                for seed in data['records']:
+                    record = model(**seed)
+                    db.add(record)
+                    db.commit()
+            else:
+                data['records'] = self._load_transaction_model(
+                    data,
+                    model,
+                    db
+                )
 
         return data['records']
+
+    def load_all_models(self):
+        """This method load all tables of models that
+        have created seeds.
+        """
+
+        for model_name in self.import_order:
+            self.load_model(model_name)
 
     def clear_model(self, model_name: str):
         """This method clean records from database
