@@ -1,19 +1,22 @@
+import unittest
+
 from src.importer.importer import DataImporter
 from src.connection.database import DataAccessLayer
 
 
-class BaseCase:
+class BaseCase(unittest.TestCase):
 
     @classmethod
-    def setup_class(cls):
+    def setUpClass(cls):
         cls._import_api()
         cls.dal = DataAccessLayer()
         cls.dal.create_tables()
+
         cls.importer = DataImporter()
         cls.importer.clear_all_models()
 
     @classmethod
-    def teardown_class(clss):
+    def tearDownClass(cls):
         pass
 
     @classmethod

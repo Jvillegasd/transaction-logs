@@ -8,10 +8,11 @@ from sqlalchemy.orm import Session
 
 class TestImporterSeeds(BaseCase):
 
-    def setup_class(self):
-        super().setup_class()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-    def setup_method(self):
+    def setUp(self):
         self.importer.clear_all_models()
 
     def test_load_all_models(self):
@@ -21,8 +22,8 @@ class TestImporterSeeds(BaseCase):
         user_record = db.query(User).first()
         transaction_record = db.query(Transaction).first()
 
-        assert user_record is not None
-        assert transaction_record is not None
+        self.assertIsNotNone(user_record)
+        self.assertIsNotNone(transaction_record)
 
     def test_clear_all_models(self):
         self.importer.clear_all_models()
@@ -31,5 +32,5 @@ class TestImporterSeeds(BaseCase):
         user_record = db.query(User).first()
         transaction_record = db.query(Transaction).first()
 
-        assert user_record is None
-        assert transaction_record is None
+        self.assertIsNone(user_record)
+        self.assertIsNone(transaction_record)
