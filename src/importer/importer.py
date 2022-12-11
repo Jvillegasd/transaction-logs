@@ -56,9 +56,14 @@ class DataImporter:
 
         return import_order
 
+    # TODO: Load transactions
+
     def load_model(self, model_name: str) -> list:
         """Loads seeds to database for the provided
         model name.
+
+        Args:
+            -   model_name: str
 
         Returns:
             -   list: A list with the seeds of the model.
@@ -78,6 +83,13 @@ class DataImporter:
         return data['records']
 
     def clear_model(self, model_name: str):
+        """This method clean records from database
+        related to provided model name.
+
+        Args:
+            -   model_name: str
+        """
+
         data = self.seeds[model_name]
         with self.dal.get_session() as db:
             module_name, class_name = data['model'].rsplit('.', 1)
@@ -87,6 +99,10 @@ class DataImporter:
             db.commit()
 
     def clear_all_models(self):
+        """This method clean all tables of loaded
+        models.
+        """
+
         remove_order = list(reversed(self.import_order))
         for model_name in remove_order:
             self.clear_model(model_name)
