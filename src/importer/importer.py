@@ -37,7 +37,7 @@ class DataImporter:
 
             with open(file, 'r') as f:
                 seed_dict = json.load(f)
-                seeds[seed_dict['model']] = seed_dict
+                seeds[seed_dict['model_name']] = seed_dict
 
         return seeds
 
@@ -117,22 +117,23 @@ class DataImporter:
         """
 
         data = self.seeds[model_name]
-        with self.dal.get_session() as db:
-            module_name, class_name = data['model'].rsplit('.', 1)
-            module = import_module(module_name)
-            model = getattr(module, class_name)
+        db: Session = next(self.dal.get_session())
 
-            if model_name != 'transactions':
-                for seed in data['records']:
-                    record = model(**seed)
-                    db.add(record)
-                    db.commit()
-            else:
-                data['records'] = self._load_transaction_model(
-                    data,
-                    model,
-                    db
-                )
+        module_name, class_name = data['model'].rsplit('.', 1)
+        module = import_module(module_name)
+        model = getattr(module, class_name)
+
+        if model_name != 'transactions':
+            for seed in data['records']:
+                record = model(**seed)
+                db.add(record)
+                db.commit()
+        else:
+            data['records'] = self._load_transaction_model(
+                data,
+                model,
+                db
+            )
 
         return data['records']
 
@@ -153,12 +154,13 @@ class DataImporter:
         """
 
         data = self.seeds[model_name]
-        with self.dal.get_session() as db:
-            module_name, class_name = data['model'].rsplit('.', 1)
-            module = import_module(module_name)
-            model = getattr(module, class_name)
-            db.query(model).delete()
-            db.commit()
+        db: Session = next(self.dal.get_session())
+
+        module_name, class_name = data['model'].rsplit('.', 1)
+        module = import_module(module_name)
+        model = getattr(module, class_name)
+        db.query(model).delete()
+        db.commit()
 
     def clear_all_models(self):
         """This method clean all tables of loaded

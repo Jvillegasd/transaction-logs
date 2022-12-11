@@ -2,6 +2,8 @@ from test.base_case import BaseCase
 from src.models.user import User
 from src.models.transaction import Transaction
 
+from sqlalchemy.orm import Session
+
 
 
 class TestImporterSeeds(BaseCase):
@@ -14,20 +16,20 @@ class TestImporterSeeds(BaseCase):
 
     def test_load_all_models(self):
         self.importer.load_all_models()
+        db: Session = next(self.dal.get_session())
 
-        with self.dal.get_session() as db:
-            user_record = db.query(User).first()
-            transaction_record = db.query(Transaction).first()
+        user_record = db.query(User).first()
+        transaction_record = db.query(Transaction).first()
 
         assert user_record is not None
         assert transaction_record is not None
 
     def test_clear_all_models(self):
         self.importer.clear_all_models()
+        db: Session = next(self.dal.get_session())
 
-        with self.dal.get_session() as db:
-            user_record = db.query(User).first()
-            transaction_record = db.query(Transaction).first()
+        user_record = db.query(User).first()
+        transaction_record = db.query(Transaction).first()
 
         assert user_record is None
         assert transaction_record is None

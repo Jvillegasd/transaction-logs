@@ -8,6 +8,7 @@ class BaseCase:
     def setup_class(cls):
         cls._import_api()
         cls.dal = DataAccessLayer()
+        cls.dal.create_tables()
         cls.importer = DataImporter()
         cls.importer.clear_all_models()
 

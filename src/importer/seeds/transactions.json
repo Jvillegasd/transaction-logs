@@ -1,5 +1,6 @@
 {
     "model": "src.models.transaction.Transaction",
+    "model_name": "transactions",
     "records": [
         {
             "id": "757259b6-8cc2-4f16-9d59-36159f674243",
