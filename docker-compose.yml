@@ -4,7 +4,6 @@ services:
   transaction-api:
     container_name: transaction-api
     build: .
-    command: python3 app.py
     env_file: .env
     restart: always
     volumes:
