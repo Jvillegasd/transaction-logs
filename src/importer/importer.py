@@ -55,3 +55,38 @@ class DataImporter:
             import_order = json.load(f)
 
         return import_order
+
+    def load_model(self, model_name: str) -> list:
+        """Loads seeds to database for the provided
+        model name.
+
+        Returns:
+            -   list: A list with the seeds of the model.
+        """
+
+        data = self.seeds[model_name]
+        with self.dal.get_session() as db:
+            module_name, class_name = data['model'].rsplit('.', 1)
+            module = import_module(module_name)
+            model = getattr(module, class_name)
+
+            for seed in data['records']:
+                record = model(**seed)
+                db.add(record)
+                db.commit()
+
+        return data['records']
+
+    def clear_model(self, model_name: str):
+        data = self.seeds[model_name]
+        with self.dal.get_session() as db:
+            module_name, class_name = data['model'].rsplit('.', 1)
+            module = import_module(module_name)
+            model = getattr(module, class_name)
+            db.query(model).delete()
+            db.commit()
+
+    def clear_all_models(self):
+        remove_order = list(reversed(self.import_order))
+        for model_name in remove_order:
+            self.clear_model(model_name)
