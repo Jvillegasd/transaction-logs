@@ -8,10 +8,6 @@ from sqlalchemy.orm import Session
 
 class TestImporterSeeds(BaseCase):
 
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-
     def setUp(self):
         self.importer.clear_all_models()
 
