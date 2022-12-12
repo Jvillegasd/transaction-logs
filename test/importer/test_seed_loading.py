@@ -13,20 +13,20 @@ class TestImporterSeeds(BaseCase):
 
     def test_load_all_models(self):
         self.importer.load_all_models()
-        db: Session = next(self.dal.get_session())
 
-        user_record = db.query(User).first()
-        transaction_record = db.query(Transaction).first()
+        with self.dal.get_session() as db:
+            user_record = db.query(User).first()
+            transaction_record = db.query(Transaction).first()
 
-        self.assertIsNotNone(user_record)
-        self.assertIsNotNone(transaction_record)
+            self.assertIsNotNone(user_record)
+            self.assertIsNotNone(transaction_record)
 
     def test_clear_all_models(self):
         self.importer.clear_all_models()
-        db: Session = next(self.dal.get_session())
 
-        user_record = db.query(User).first()
-        transaction_record = db.query(Transaction).first()
+        with self.dal.get_session() as db:
+            user_record = db.query(User).first()
+            transaction_record = db.query(Transaction).first()
 
-        self.assertIsNone(user_record)
-        self.assertIsNone(transaction_record)
+            self.assertIsNone(user_record)
+            self.assertIsNone(transaction_record)

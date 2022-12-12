@@ -1,4 +1,6 @@
 import os
+from typing import Generator
+from contextlib import contextmanager
 
 from sqlalchemy.engine import URL
 from sqlalchemy import create_engine
@@ -32,15 +34,26 @@ class DataAccessLayer:
             bind=self.engine
         )
 
-    def get_session(self) -> Session:
+    @contextmanager
+    def get_session(self) -> Generator[Session]:
+        """This generator yields a new session and closes
+        it when it finished.
+
+        Returns:
+            -   Generator[Session]
+        """
+
         db = self.session()
         db.expire_on_commit = False
         try:
             yield db
+            db.commit()
         except Exception as e:
+            db.rollback()
             raise e
         finally:
             db.close()
 
     def create_tables(self):
+        """Creates non-existing tables in database."""
         Base.metadata.create_all(self.engine)

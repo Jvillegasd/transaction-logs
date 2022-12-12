@@ -117,23 +117,22 @@ class DataImporter:
         """
 
         data = self.seeds[model_name]
-        db: Session = next(self.dal.get_session())
+        with self.dal.get_session() as db:
+            module_name, class_name = data['model'].rsplit('.', 1)
+            module = import_module(module_name)
+            model = getattr(module, class_name)
 
-        module_name, class_name = data['model'].rsplit('.', 1)
-        module = import_module(module_name)
-        model = getattr(module, class_name)
-
-        if model_name != 'transactions':
-            for seed in data['records']:
-                record = model(**seed)
-                db.add(record)
-                db.commit()
-        else:
-            data['records'] = self._load_transaction_model(
-                data,
-                model,
-                db
-            )
+            if model_name != 'transactions':
+                for seed in data['records']:
+                    record = model(**seed)
+                    db.add(record)
+                    db.commit()
+            else:
+                data['records'] = self._load_transaction_model(
+                    data,
+                    model,
+                    db
+                )
 
         return data['records']
 
@@ -154,13 +153,12 @@ class DataImporter:
         """
 
         data = self.seeds[model_name]
-        db: Session = next(self.dal.get_session())
-
-        module_name, class_name = data['model'].rsplit('.', 1)
-        module = import_module(module_name)
-        model = getattr(module, class_name)
-        db.query(model).delete()
-        db.commit()
+        with self.dal.get_session() as db:
+            module_name, class_name = data['model'].rsplit('.', 1)
+            module = import_module(module_name)
+            model = getattr(module, class_name)
+            db.query(model).delete()
+            db.commit()
 
     def clear_all_models(self):
         """This method clean all tables of loaded
