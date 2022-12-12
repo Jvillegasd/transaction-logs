@@ -1,6 +1,6 @@
 import enum
 
-from src.models.base import BaseModel
+from src.models.base_model import BaseModel
 
 from sqlalchemy import (
     Enum,

@@ -1,5 +1,5 @@
 import os
-from typing import Generator
+from typing import Iterator
 from contextlib import contextmanager
 
 from sqlalchemy.engine import URL
@@ -35,12 +35,12 @@ class DataAccessLayer:
         )
 
     @contextmanager
-    def get_session(self) -> Generator[Session]:
+    def get_session(self) -> Iterator[Session]:
         """This generator yields a new session and closes
         it when it finished.
 
         Returns:
-            -   Generator[Session]
+            -   Iterator[Session]
         """
 
         db = self.session()
