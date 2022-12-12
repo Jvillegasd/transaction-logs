@@ -1,7 +1,7 @@
 from test.base_case import BaseCase
 
 
-class TestApiLaunch(BaseCase):
+class TestApiStartup(BaseCase):
 
     def test_home_endpoint(self):
         response = self.client.get('/api/')
