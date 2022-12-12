@@ -1,7 +1,7 @@
-import datetime
 from typing import Optional, Any
 
 from src.models.base_model import BaseModel
+from src.schemas.filters import FilterSchema
 
 from sqlalchemy.orm.query import Query
 from sqlalchemy.orm.session import Session
@@ -12,11 +12,36 @@ class BaseRepository:
     def __init__(self, model: BaseModel):
         self.model = model
 
+    def find_all(
+        self,
+        db: Session,
+        filters: list[FilterSchema]
+    ) -> list[BaseModel]:
+        """Find all records from current model that
+        match simple filters.
+
+        Args:
+            -   db: Session = SQLAlchemy session.
+
+            -   filters: list[FilterSchema] = List of simple
+            filters for apply to current model.
+
+        Returns:
+            -   list[BaseModel] = List of current models that match
+            provided filters.
+        """
+
+        query = db.query(self.model)
+        query = self._apply_filters(query, filters)
+        return query.all()
+
     def find_by_id(self, db: Session, id: Any) -> Optional[BaseModel]:
         """Find a record for loaded model by searching
         by id.
 
         Args:
+            -   db: Session = SQLAlchemy session.
+
             -   id: Any = Id to search in table.
 
         Returns:
@@ -36,7 +61,8 @@ class BaseRepository:
     ) -> dict:
         """Paginates Query using cursor technique. So,
         pagination will scales at the same time the transactions
-        does.
+        does. After query is paginated, result is returned in
+        DESC order.
 
         Args:
             -   query: Query = Query to paginate.
@@ -54,7 +80,7 @@ class BaseRepository:
 
         result: list[BaseModel] = query.filter(
             self.model.created_at < cursor_timestamp
-        ).order_by(self.model.created_at.asc()).limit(per_page).all()
+        ).order_by(self.model.created_at.desc()).limit(per_page).all()
 
         return {
             'records': result,
@@ -65,5 +91,51 @@ class BaseRepository:
             }
         }
 
-    def apply_filters(self):
-        pass
+    def _apply_filters(
+        self,
+        query: Query,
+        filters: list[FilterSchema]
+    ) -> Query:
+        """Apply a list of simple filters to the provided
+        query. Simple filters are intented to interact with
+        fields of current model. Complex operations like Joins
+        or filtering by relationship fields are not allowed.
+
+        This function only takes into account filters declared in
+        ColumnOperators class from SQLAlchemy.
+
+        Args:
+            -   query: Query = Query to be filtered.
+
+            -   filters: list[FilterSchema] = List of simple
+            filters for apply to current query.
+
+        Returns:
+            -   Query = Provided query with filter applied.
+        """
+
+        for raw_filter in filters:
+            column = getattr(self.model, raw_filter.field_name, None)
+            if column is None:
+                raise Exception(
+                    f'Invalid filter column {raw_filter.field_name}'
+                )
+
+            if raw_filter.operation != 'in':
+                try:
+                    # Get the SQLAlchemy ColumnOperators function
+                    column_op = next(filter(
+                        lambda e: hasattr(column, e % raw_filter.operation),
+                        ['%s', '%s_', '__%s__']
+                    )) % raw_filter.operation
+                except StopIteration:
+                    raise Exception(
+                        f'Invalid filter operator: {raw_filter.operation}'
+                    )
+                crafted_filter = getattr(column, column_op)(raw_filter.value)
+            else:
+                crafted_filter = column.in_(raw_filter.value)
+
+            query = query.filter(crafted_filter)
+
+        return query
