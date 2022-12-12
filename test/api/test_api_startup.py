@@ -7,6 +7,7 @@ class TestApiStartup(BaseCase):
         response = self.client.get('/api/')
         expected_value: dict = {'message': '🚀 Server is up!'}
 
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(
             expected_value,
             response.get_json()
