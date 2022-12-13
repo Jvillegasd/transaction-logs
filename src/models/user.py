@@ -19,3 +19,9 @@ class User(BaseModel):
         back_populates='user',
         viewonly=True
     )
+
+    def serialize(self) -> dict:
+        serialized = super().serialize()
+        serialized.pop('password', None)
+        return serialized
+ 
