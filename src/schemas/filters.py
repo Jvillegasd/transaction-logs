@@ -1,12 +1,11 @@
 from typing import Any
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
+
+from src.schemas.base_schema import BaseSchema
 
 
 @dataclass
-class FilterSchema:
+class FilterSchema(BaseSchema):
     field_name: str
     operation: str
     value: Any
-
-    def dict(self) -> dict:
-        return {k: v for k, v in asdict(self).items()}

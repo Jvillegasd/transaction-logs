@@ -3,6 +3,7 @@ from typing import Optional, Any
 from src.models.base_model import BaseModel
 from src.schemas.filters import FilterSchema
 from src.errors.filters import InvalidFilterColumn, InvalidFilterOperator
+from src.schemas.model_pagination import ModelPagination, PaginationCursor
 
 from sqlalchemy.orm.query import Query
 from sqlalchemy.orm.session import Session
@@ -82,7 +83,7 @@ class BaseRepository:
         query: Query,
         cursor_timestamp: Optional[float] = None,
         per_page: int = 10
-    ) -> dict:
+    ) -> ModelPagination:
         """Paginates Query using cursor technique. So,
         pagination will scales at the same time the transactions
         does. After query is paginated, result is returned in
@@ -98,7 +99,7 @@ class BaseRepository:
             per page.
 
         Returns:
-            -   dict = Pagination dict object that save cursors and
+            -   ModelPagination = Pagination dict object that save cursors and
             records for current page.
         """
 
@@ -112,14 +113,14 @@ class BaseRepository:
                 self.model.created_at.desc()
             ).limit(per_page).all()
 
-        return {
-            'records': result,
-            'cursor': {
-                'prev': cursor_timestamp,
-                'next': result[-1].created_at.timestamp(),
-                'per_page': per_page
-            }
-        }
+        return ModelPagination(
+            records=result,
+            cursor=PaginationCursor(
+                prev=cursor_timestamp,
+                next=result[-1].created_at.timestamp(),
+                per_page=per_page
+            )
+        )
 
     def _apply_filters(
         self,

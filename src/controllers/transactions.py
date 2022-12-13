@@ -18,8 +18,6 @@ def user_transactions():
             user_id,
             db
         )
-        transactions['records'] = ORMSerializer.serialize_list(
-            transactions['records']
-        )
+        transactions_serialized = transactions.dict()
 
-    return transactions
+    return transactions_serialized

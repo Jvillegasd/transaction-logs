@@ -3,6 +3,7 @@ from typing import Optional
 
 from src.schemas.filters import FilterSchema
 from src.models.transaction import Transaction
+from src.schemas.model_pagination import ModelPagination
 from src.repositories.transactions import TransactionRepository
 
 from sqlalchemy.orm.session import Session
@@ -18,7 +19,7 @@ class TransactionService:
         user_id: uuid.UUID,
         db: Session,
         filters: Optional[list[FilterSchema]] = None
-    ) -> dict:
+    ) -> ModelPagination:
         """Fetch all transactions for specific user.
         These records are paginated and simple filters can be applied.
 

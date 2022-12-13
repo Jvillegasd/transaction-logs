@@ -2,11 +2,12 @@ import enum
 import datetime
 
 from sqlalchemy.orm import Query
+from src.connection.database import Base
 from sqlalchemy.inspection import inspect
 
 
 class ORMSerializer(object):
-    """The ORMSerializer object allows BaseModel objects
+    """The ORMSerializer class allows BaseModel objects
     to be serialized into dict. This class makes basic serialization
     and ignores nested BaseModel serialization.
     """
@@ -21,8 +22,8 @@ class ORMSerializer(object):
         serialized_obj: dict = {}
         for column in inspect(self).attrs.keys():
             value = getattr(self, column)
-            # TODO: Create a BaseSchema class for schema creation
-            if isinstance(value, ORMSerializer):
+            # TODO: Handle nested ORMSerializer objects
+            if isinstance(value, ORMSerializer) or isinstance(value, list):
                 continue
 
             if isinstance(value, Query):
