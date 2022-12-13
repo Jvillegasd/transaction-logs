@@ -29,7 +29,7 @@ class ORMSerializer(object):
                 value = self.serialize_list(value.all())
 
             if isinstance(value, datetime.datetime):
-                value = value.strftime('%d-%m-%Y %H:%M:%S')
+                value = value.strftime('%d-%m-%Y %H:%M:%S.%f')
 
             if isinstance(value, enum.Enum):
                 value = value.value

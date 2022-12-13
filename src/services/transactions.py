@@ -18,7 +18,7 @@ class TransactionService:
         user_id: uuid.UUID,
         db: Session,
         filters: Optional[list[FilterSchema]] = None
-    ) -> list[Transaction]:
+    ) -> dict:
         """Fetch all transactions for specific user.
         These records are paginated and simple filters can be applied.
 
@@ -28,7 +28,7 @@ class TransactionService:
             -   db: Session = SQLAlchemy session object.
 
         Returns:
-            -   list[Transaction] = List of transaction of the provided user.
+            -   dict = List of transaction of the provided user.
             This list is paginated and filtered.
         """
 
@@ -43,5 +43,7 @@ class TransactionService:
             )
         )
 
-        transactions_model = self._repo.find_all(db, filters)
-        return transactions_model
+        transactions_query = self._repo.find_all(db, filters)
+        return self._repo.apply_pagination(
+            query=transactions_query
+        )

@@ -20,4 +20,5 @@ class TestApiTransaction(BaseCase):
         response_json = response.get_json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertGreater(len(response_json), 0)
+        self.assertGreater(len(response_json['records']), 0)
+

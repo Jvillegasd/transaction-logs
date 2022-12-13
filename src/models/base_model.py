@@ -18,6 +18,7 @@ class BaseModel(Base, ORMSerializer):
     created_at = Column(
         TIMESTAMP(timezone=False),
         nullable=False,
+        unique=True,
         default=func.current_timestamp()
     )
     updated_at = Column(

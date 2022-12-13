@@ -39,7 +39,7 @@ class BaseRepository:
         self,
         db: Session,
         filters: list[FilterSchema]
-    ) -> list[BaseModel]:
+    ) -> Query:
         """Find all records from current model that
         match simple filters.
 
@@ -50,13 +50,14 @@ class BaseRepository:
             filters for apply to current model.
 
         Returns:
-            -   list[BaseModel] = List of current models that match
-            provided filters.
+            -   Query = Query of current models that match
+            provided filters. Query is returned due to allows pagination
+            application.
         """
 
         query = db.query(self.model)
         query = self._apply_filters(query, filters)
-        return query.all()
+        return query
 
     def find_by_id(self, db: Session, id: Any) -> Optional[BaseModel]:
         """Find a record for loaded model by searching
@@ -79,7 +80,7 @@ class BaseRepository:
     def apply_pagination(
         self,
         query: Query,
-        cursor_timestamp: Optional[float],
+        cursor_timestamp: Optional[float] = None,
         per_page: int = 10
     ) -> dict:
         """Paginates Query using cursor technique. So,
@@ -101,9 +102,15 @@ class BaseRepository:
             records for current page.
         """
 
-        result: list[BaseModel] = query.filter(
-            self.model.created_at < cursor_timestamp
-        ).order_by(self.model.created_at.desc()).limit(per_page).all()
+        result: list[BaseModel]
+        if cursor_timestamp:
+            result = query.filter(
+                self.model.created_at < cursor_timestamp
+            ).order_by(self.model.created_at.desc()).limit(per_page).all()
+        else:
+            result = query.order_by(
+                self.model.created_at.desc()
+            ).limit(per_page).all()
 
         return {
             'records': result,
