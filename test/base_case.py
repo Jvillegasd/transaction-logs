@@ -1,4 +1,6 @@
+import uuid
 import unittest
+from typing import Optional, Iterator
 
 from src import create_app
 from src.importer.importer import DataImporter
@@ -27,3 +29,11 @@ class BaseCase(unittest.TestCase):
         cls.headers = {
             'Content-Type': 'application/json'
         }
+
+    def authentication(
+        self,
+        user_id: Optional[uuid.UUID]
+    ) -> Iterator:
+        with self.client.session_transaction() as session:
+            session['user_id'] = user_id
+            yield session

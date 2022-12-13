@@ -1,5 +1,6 @@
 from src.connection import get_dal
 from src.services.users import UserService
+from src.middlewares.auth import is_authenticated
 from src.errors.users import BadCredentials, UserNotFound
 
 from flask import Blueprint, request, abort
@@ -24,5 +25,6 @@ def auth_user():
 
 
 @users_api.route('/logout')
+@is_authenticated
 def logout_user():
     return user_service.logout()

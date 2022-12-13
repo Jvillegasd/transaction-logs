@@ -1,5 +1,6 @@
 from src.connection import get_dal
 from src.schemas import ORMSerializer
+from src.middlewares.auth import is_authenticated
 from src.services.transactions import TransactionService
 
 from flask import Blueprint, session
@@ -9,6 +10,7 @@ transaction_service = TransactionService()
 
 
 @transactions_api.get('/')
+@is_authenticated
 def user_transactions():
     with get_dal().get_session() as db:
         user_id = session.get('user_id')

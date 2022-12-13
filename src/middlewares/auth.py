@@ -4,7 +4,7 @@ from functools import wraps
 from flask import abort, session
 
 
-def is_authorized(endpoint: Callable) -> Callable:
+def is_authenticated(endpoint: Callable) -> Callable:
 
     @wraps(endpoint)
     def wrapper(*args, **kwargs):
