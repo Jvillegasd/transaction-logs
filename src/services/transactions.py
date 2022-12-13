@@ -42,3 +42,6 @@ class TransactionService:
                 value=user_id
             )
         )
+
+        transactions_model = self._repo.find_all(db, filters)
+        return transactions_model

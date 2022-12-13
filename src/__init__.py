@@ -1,7 +1,7 @@
 import json
 import traceback
 
-from src.controllers import home_api, users_api
+from src.controllers import home_api, users_api, transactions_api
 from src.config.app_config import config_by_name
 
 from flask import Flask, make_response
@@ -59,6 +59,7 @@ def create_app(config_name: str) -> Flask:
     # Blueprints
     app.register_blueprint(home_api, url_prefix='/api')
     app.register_blueprint(users_api, url_prefix='/api/users')
+    app.register_blueprint(transactions_api, url_prefix='/api/transactions')
 
     # Error handlers
     app.errorhandler(Exception)(_handle_exception)
