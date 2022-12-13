@@ -1,7 +1,7 @@
 from typing import Any
 from dataclasses import dataclass, asdict
 
-from src.models.base_model import BaseModel
+from src.schemas import ORMSerializer
 
 
 @dataclass
@@ -23,7 +23,7 @@ class BaseSchema:
 
         if isinstance(data, BaseSchema):
             return data.dict()
-        elif isinstance(data, BaseModel):
+        elif isinstance(data, ORMSerializer):
             return data.serialize()
         elif isinstance(data, list):
             return [

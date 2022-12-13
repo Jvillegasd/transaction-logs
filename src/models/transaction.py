@@ -44,6 +44,7 @@ class Transaction(BaseModel):
 
     user = relationship(
         'User',
+        lazy='joined',
         back_populates='transactions',
         viewonly=True
     )

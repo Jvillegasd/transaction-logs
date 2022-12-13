@@ -31,6 +31,7 @@ class DataAccessLayer:
         self.session = sessionmaker(
             autocommit=False,
             autoflush=False,
+            expire_on_commit=False,
             bind=self.engine
         )
 
@@ -44,7 +45,6 @@ class DataAccessLayer:
         """
 
         db = self.session()
-        db.expire_on_commit = False
         try:
             yield db
         except Exception as e:

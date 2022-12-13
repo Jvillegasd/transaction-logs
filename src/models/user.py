@@ -16,6 +16,7 @@ class User(BaseModel):
 
     transactions = relationship(
         'Transaction',
+        lazy='dynamic',
         back_populates='user',
         viewonly=True
     )
