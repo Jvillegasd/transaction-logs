@@ -17,8 +17,8 @@ class UserService:
         email and password.
 
         Args:
-            -   data: dict = Provided credentials
-            -   db: Session
+            -   data: dict = Provided credentials.
+            -   db: Session = SQLAlchemy session object.
 
         Returns:
             -   User = User record of provided credentials.
