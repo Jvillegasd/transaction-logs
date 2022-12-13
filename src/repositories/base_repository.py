@@ -2,6 +2,7 @@ from typing import Optional, Any
 
 from src.models.base_model import BaseModel
 from src.schemas.filters import FilterSchema
+from src.errors.filters import InvalidFilterColumn, InvalidFilterOperator
 
 from sqlalchemy.orm.query import Query
 from sqlalchemy.orm.session import Session
@@ -11,6 +12,28 @@ class BaseRepository:
 
     def __init__(self, model: BaseModel):
         self.model = model
+
+    def find_one(
+        self,
+        db: Session,
+        filters: list[FilterSchema]
+    ) -> Optional[BaseModel]:
+        """Find one record from current model that
+        match simple filters.
+
+        Args:
+            -   db: Session = SQLAlchemy session.
+
+            -   filters: list[FilterSchema] = List of simple
+            filters for apply to current model.
+
+        Returns:
+            -   BaseModel = Record that match provided filters.
+        """
+
+        query = db.query(self.model)
+        query = self._apply_filters(query, filters)
+        return query.first()
 
     def find_all(
         self,
@@ -117,7 +140,7 @@ class BaseRepository:
         for raw_filter in filters:
             column = getattr(self.model, raw_filter.field_name, None)
             if column is None:
-                raise Exception(
+                raise InvalidFilterColumn(
                     f'Invalid filter column {raw_filter.field_name}'
                 )
 
@@ -129,7 +152,7 @@ class BaseRepository:
                         ['%s', '%s_', '__%s__']
                     )) % raw_filter.operation
                 except StopIteration:
-                    raise Exception(
+                    raise InvalidFilterOperator(
                         f'Invalid filter operator: {raw_filter.operation}'
                     )
                 crafted_filter = getattr(column, column_op)(raw_filter.value)
