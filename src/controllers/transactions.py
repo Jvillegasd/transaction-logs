@@ -15,8 +15,8 @@ def user_transactions():
     with get_dal().get_session() as db:
         user_id = session.get('user_id')
         transactions_model = transaction_service.get_user_transactions(
-            db,
-            user_id
+            user_id,
+            db
         )
         serialized_transactions = ORMSerializer.serialize_list(
             transactions_model

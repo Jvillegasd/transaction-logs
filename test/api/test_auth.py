@@ -1,7 +1,7 @@
 from test.base_case import BaseCase
 
 
-class TestUserAuth(BaseCase):
+class TestApiUserAuth(BaseCase):
 
     def setUp(self):
         self.users = self.importer.load_model('users')

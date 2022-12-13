@@ -17,7 +17,7 @@ class TransactionService:
         self,
         user_id: uuid.UUID,
         db: Session,
-        filters: Optional[list[FilterSchema]]
+        filters: Optional[list[FilterSchema]] = None
     ) -> list[Transaction]:
         """Fetch all transactions for specific user.
         These records are paginated and simple filters can be applied.
@@ -37,7 +37,7 @@ class TransactionService:
 
         filters.append(
             FilterSchema(
-                field_name='id',
+                field_name='user_id',
                 operation='eq',
                 value=user_id
             )
