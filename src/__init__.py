@@ -1,22 +1,7 @@
-from src.controllers import home_api
+from src.controllers import home_api, users_api
 from src.config.app_config import config_by_name
-from src.connection.database import DataAccessLayer
 
-from flask import Flask, g
-
-
-def get_dal() -> DataAccessLayer:
-    """Store a Data Access Layer instance in Flask
-    Application context for use this across requests.
-
-    Returns:
-        -   DataAccessLayer
-    """
-
-    if 'dal' not in g:
-        g.dal = DataAccessLayer()
-
-    return g.dal
+from flask import Flask
 
 
 def create_app(config_name: str) -> Flask:
@@ -40,5 +25,6 @@ def create_app(config_name: str) -> Flask:
 
     # Blueprints
     app.register_blueprint(home_api, url_prefix='/api')
+    app.register_blueprint(users_api, url_prefix='/api/users')
 
     return app

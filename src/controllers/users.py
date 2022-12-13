@@ -1,4 +1,4 @@
-from src import get_dal
+from src.connection import get_dal
 from src.services.users import UserService
 
 from flask import Blueprint, request
@@ -12,8 +12,9 @@ def auth_user():
     with get_dal().get_session() as db:
         data: dict = request.get_json()
         user_model = user_service.auth(data, db)
+        user_serialized = user_model.serialize()
 
-    return user_model
+    return user_serialized
 
 
 @users_api.route('/logout')

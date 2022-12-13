@@ -1,3 +1,6 @@
+import datetime
+
+from sqlalchemy.orm import Query
 from sqlalchemy.inspection import inspect
 
 
@@ -9,10 +12,19 @@ class ORMSerializer(object):
         Returns:
             -   dict = Serialized ORM object.
         """
-        return {
-            column: getattr(self, column)
-            for column in inspect(self).attrs.keys()
-        }
+
+        serialized_obj: dict = {}
+        for column in inspect(self).attrs.keys():
+            value = getattr(self, column)
+            if isinstance(value, Query):
+                value = self.serialize_list(value.all())
+
+            if isinstance(value, datetime.datetime):
+                value = value.strftime('%d-%m-%Y %H:%M:%S')
+
+            serialized_obj[column] = value
+
+        return serialized_obj
 
     @staticmethod
     def serialize_list(records: list) -> list[dict]:

@@ -24,3 +24,6 @@ class BaseCase(unittest.TestCase):
     def _import_api(cls):
         cls.app = create_app(config_name='test')
         cls.client = cls.app.test_client()
+        cls.headers = {
+            'Content-Type': 'application/json'
+        }

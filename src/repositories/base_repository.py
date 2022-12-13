@@ -109,7 +109,7 @@ class BaseRepository:
             'records': result,
             'cursor': {
                 'prev': cursor_timestamp,
-                'next': result[-1].created_at,
+                'next': result[-1].created_at.timestamp(),
                 'per_page': per_page
             }
         }

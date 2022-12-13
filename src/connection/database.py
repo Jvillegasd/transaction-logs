@@ -47,7 +47,6 @@ class DataAccessLayer:
         db.expire_on_commit = False
         try:
             yield db
-            db.commit()
         except Exception as e:
             db.rollback()
             raise e

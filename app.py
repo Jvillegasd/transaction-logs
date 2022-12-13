@@ -1,6 +1,7 @@
 import os
 
-from src import create_app, get_dal
+from src import create_app
+from src.connection import get_dal
 
 port = os.getenv('PORT', 5001)
 app = create_app(config_name=os.getenv('APP_ENV', 'dev'))
