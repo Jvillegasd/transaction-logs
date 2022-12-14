@@ -114,7 +114,7 @@ class BaseRepository:
             ).limit(per_page).all()
 
         return ModelPagination(
-            records=result,
+            records=BaseModel.serialize_list(result),
             cursor=PaginationCursor(
                 prev=cursor_timestamp,
                 next=result[-1].created_at.timestamp(),

@@ -41,10 +41,3 @@ class Transaction(BaseModel):
         nullable=False
     )
     amount = Column(Float, nullable=False)
-
-    user = relationship(
-        'User',
-        lazy='joined',
-        back_populates='transactions',
-        viewonly=True
-    )

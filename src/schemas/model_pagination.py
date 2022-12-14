@@ -1,7 +1,6 @@
-from typing import Optional
+from typing import Optional, Any
 from dataclasses import dataclass
 
-from src.models.base_model import BaseModel
 from src.schemas.base_schema import BaseSchema
 
 
@@ -14,5 +13,5 @@ class PaginationCursor(BaseSchema):
 
 @dataclass
 class ModelPagination(BaseSchema):
-    records: list[BaseModel]
+    records: list[Any]
     cursor: PaginationCursor
