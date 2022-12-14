@@ -91,7 +91,8 @@ class DataImporter:
 
             amount = seed['amount']
             if seed['transaction_type'] in negative_types:
-                amount *= -1
+                amount = abs(amount) * -1
+                seed['amount'] = amount
 
             if user_balance[user_id] + amount >= 0:
                 seed['status'] = TransactionStatus.acepted

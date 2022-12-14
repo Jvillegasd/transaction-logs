@@ -1,3 +1,5 @@
+import uuid
+
 from src.models.user import User
 from src.schemas.filters import FilterSchema
 from src.repositories.users import UserRepository
@@ -43,6 +45,35 @@ class UserService:
 
         session['user_id'] = user_model.id
         return user_model
+
+    def get_account_balance(
+        self,
+        user_id: uuid.UUID,
+        db: Session
+    ) -> float:
+        """Get account balance of provided user.
+
+        Args:
+            -   user_id: uuid.UUID
+
+            -   db: Session
+
+        Returns:
+            -   float:  Account balance
+        """
+
+        filters = [
+            FilterSchema(
+                field_name='id',
+                operation='eq',
+                value=user_id
+            )
+        ]
+        user_model = self._repo.find_one(db, filters)
+        if not user_model:
+            raise UserNotFound('User not found in database')
+
+        return user_model.account_balance
 
     def logout(self) -> dict:
         session.pop('user_id', None)

@@ -8,7 +8,7 @@
             "name": "Initial amount",
             "merchant": "Bank",
             "transaction_type": "deposit",
-            "amount": 200000
+            "amount": 20000000
         },
         {
             "id": "47e6456b-0f43-4119-8b51-0662cad89362",
@@ -56,7 +56,7 @@
             "name": "Bills",
             "merchant": null,
             "transaction_type": "withdraw",
-            "amount": 20000
+            "amount": 99999999
         }
     ]
 }
