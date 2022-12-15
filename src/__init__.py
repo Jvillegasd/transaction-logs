@@ -1,8 +1,8 @@
 import json
 import traceback
 
-from src.controllers import home_api, users_api, transactions_api
 from src.config.app_config import config_by_name
+from src.controllers import home_api, users_api, transactions_api
 
 from flask import Flask, make_response
 from werkzeug.exceptions import HTTPException

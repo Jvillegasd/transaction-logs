@@ -1,5 +1,3 @@
-# https://www.moesif.com/blog/technical/api-design/REST-API-Design-Filtering-Sorting-and-Pagination/
-
 import re
 
 from src.schemas.filters import FilterSchema
@@ -65,7 +63,6 @@ class QueryParameterParser(object):
         filters: list[FilterSchema] = []
         for param, value in query_params.items():
             op = cls._get_query_operator(param)
-
             filters.append(
                 FilterSchema(
                     field_name=param,

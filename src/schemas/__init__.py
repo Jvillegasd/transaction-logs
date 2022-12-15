@@ -2,7 +2,6 @@ import enum
 import datetime
 
 from sqlalchemy.orm import Query
-from src.connection.database import Base
 from sqlalchemy.inspection import inspect
 
 
