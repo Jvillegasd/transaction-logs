@@ -15,3 +15,9 @@ class PaginationCursor(BaseSchema):
 class ModelPagination(BaseSchema):
     records: list[Any]
     cursor: PaginationCursor
+
+
+@dataclass
+class QueryParamPagination(BaseSchema):
+    per_page: Optional[int]
+    next_cursor: Optional[int]
