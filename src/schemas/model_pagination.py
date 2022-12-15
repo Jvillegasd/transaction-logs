@@ -20,4 +20,4 @@ class ModelPagination(BaseSchema):
 @dataclass
 class QueryParamPagination(BaseSchema):
     per_page: Optional[int]
-    next_cursor: Optional[int]
+    next_cursor: Optional[float]

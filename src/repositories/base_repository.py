@@ -103,17 +103,22 @@ class BaseRepository:
             -   ModelPagination = Pagination dict object that save cursors and
             records for current page.
         """
+        import datetime
 
         per_page: int = 10
-        cursor_timestamp: Optional[int] = None
+        cursor_timestamp: Optional[float] = None
         if paginate:
             per_page = paginate.per_page or 10
             cursor_timestamp = paginate.next_cursor
 
         result: list[BaseModel]
         if cursor_timestamp:
+            cursor_timestamp = float(cursor_timestamp)
+            cursor_date = datetime.datetime.fromtimestamp(
+                cursor_timestamp
+            )
             result = query.filter(
-                self.model.created_at < cursor_timestamp
+                self.model.created_at < cursor_date
             ).order_by(self.model.created_at.desc()).limit(per_page).all()
         else:
             result = query.order_by(
