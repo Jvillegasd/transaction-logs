@@ -5,9 +5,9 @@ from src.errors.filters import InvalidComplexQueryOperator
 
 BRACKET_OPERATORS: tuple = (
     '[lt]',
-    '[lte]',
+    '[le]',
     '[gt]',
-    '[gte]',
+    '[ge]',
     '[eq]'
 )
 
@@ -15,16 +15,16 @@ BRACKET_OPERATORS: tuple = (
 class QueryParameterParser(object):
 
     @classmethod
-    def _get_query_operator(cls, field: str) -> str:
+    def _get_query_operator(cls, field: str) -> tuple[str, str]:
         """Infer query operator from field. If brackets notation is detected,
         the right operator will be returned.
 
         The following table denotes allowed complex operations:
 
                 -   '[lt]'  =   'Lower than'
-                -   '[lte]' =   'Lower or equal than'
+                -   '[le]' =   'Lower or equal than'
                 -   '[gt]'  =   'Greater than'
-                -   '[gte]' =   'Greater or equal than'
+                -   '[ge]' =   'Greater or equal than'
                 -   '[eq]'  =   'Equals to'
 
         Args:
@@ -38,13 +38,15 @@ class QueryParameterParser(object):
         if complex_op_match:
             operator: str = complex_op_match.group(0)
             if operator in BRACKET_OPERATORS:
-                return operator.replace('[', '').replace(']', '')
+                field = field.replace(operator, '')
+                operator = operator.replace('[', '').replace(']', '')
+                return field, operator
             else:
                 raise InvalidComplexQueryOperator(
                     'Query operator cannot be processed'
                 )
 
-        return 'eq'
+        return field, 'eq'
 
 
     @classmethod
@@ -62,10 +64,10 @@ class QueryParameterParser(object):
 
         filters: list[FilterSchema] = []
         for param, value in query_params.items():
-            op = cls._get_query_operator(param)
+            field, op = cls._get_query_operator(param)
             filters.append(
                 FilterSchema(
-                    field_name=param,
+                    field_name=field,
                     operation=op,
                     value=value
                 )

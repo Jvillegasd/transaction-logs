@@ -113,11 +113,15 @@ class BaseRepository:
                 self.model.created_at.desc()
             ).limit(per_page).all()
 
+        next_cursor: Optional[int] = None
+        if result:
+            next_cursor = result[-1].created_at.timestamp()
+
         return ModelPagination(
             records=BaseModel.serialize_list(result),
             cursor=PaginationCursor(
                 prev=cursor_timestamp,
-                next=result[-1].created_at.timestamp(),
+                next=next_cursor,
                 per_page=per_page
             )
         )

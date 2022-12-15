@@ -105,6 +105,14 @@
             "merchant": "Chase",
             "transaction_type": "deposit",
             "amount": 80500
+        },
+        {
+            "id": "33fa9f4c-2ccd-47f8-8ada-a3b32ff3cb97",
+            "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
+            "name": "Membership",
+            "merchant": "Starbucks",
+            "transaction_type": "expense",
+            "amount": 7.45
         }
     ]
 }
