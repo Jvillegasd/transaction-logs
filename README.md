@@ -136,3 +136,9 @@ A vanilla filtering algorithm was created for handle dynamic filters for ORM que
 	- '[eq]' = 'Equals to'
 	 - Example: `GET - /api/transactions?created_at[ge]=12-15-2022&created_at[le]=12-25-2022`
  - PD: Dates have format: `month-day-year`
+
+## Pagination
+Pagination is handle via Query parameters using Cursor technique for quick database queries. The cursor is the field `created_at` in timestamp. Example:
+
+    GET - /api/transactions?per_page=5&next_cursor=1671112380.617523
+You can combine pagination with filters queries!
