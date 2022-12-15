@@ -110,7 +110,7 @@ docker-compose up -d
 
 ## Environment variables
 
-On this section, you can see how an Environment vars file (`.env`) looks like:
+On this section, you can see how an Environment vars file looks like:
 
     APP_ENV=dev
     PORT=3001
@@ -121,3 +121,18 @@ On this section, you can see how an Environment vars file (`.env`) looks like:
     POSTGRES_HOST=transaction-db
     POSTGRES_PORT=5432
     POSTGRES_DB=transaction-logs-db
+
+## Filtering
+
+A vanilla filtering algorithm was created for handle dynamic filters for ORM queries. For complex filtering such as range comparison, I implemented a bracket notation to accomplish this. On the following table, you will see the available filtering notation. Filters are received as Query parameters!
+
+ - For direct filter, use normal query parameter notation, example:
+	 - `GET - /api/transactions?transaction_type=expense`
+ - For range filtering, you have these operations:
+	 - '[lt]' = 'Lower than'
+	- '[le]' = 'Lower or equal than'
+	- '[gt]' = 'Greater than'
+	- '[ge]' = 'Greater or equal than'
+	- '[eq]' = 'Equals to'
+	 - Example: `GET - /api/transactions?created_at[ge]=12-15-2022&created_at[le]=12-25-2022`
+ - PD: Dates have format: `month-day-year`
