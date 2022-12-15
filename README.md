@@ -110,7 +110,7 @@ docker-compose up -d
 
 ## Environment variables
 
-On this section, you can see how an Environment vars file looks like:
+On this section, you can see how an Environment vars file (`.env`) looks like:
 
     APP_ENV=dev
     PORT=3001
