@@ -7,6 +7,12 @@
             "name": "John Wick",
             "email": "john.wick@email.com",
             "password": "johnwick123"
+        },
+        {
+            "id": "84551749-dc69-41c3-bce2-cfcedb3a1adc",
+            "name": "Aureliano Buendia",
+            "email": "100years.soledad@email.com",
+            "password": "gabo123"
         }
     ]
 }
