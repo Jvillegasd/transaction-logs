@@ -13,24 +13,24 @@
         {
             "id": "47e6456b-0f43-4119-8b51-0662cad89362",
             "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
-            "name": "Netflix subscription - Nov",
-            "merchant": "Netflix",
+            "name": "Netfloz subscription - Nov",
+            "merchant": "Netfloz",
             "transaction_type": "expense",
             "amount": 2.0
         },
         {
             "id": "1d0f6ed3-8cd3-412f-9b5e-64da860ed783",
             "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
-            "name": "Netflix subscription - Dec",
-            "merchant": "Netflix",
+            "name": "Netfloz subscription - Dec",
+            "merchant": "Netfloz",
             "transaction_type": "expense",
             "amount": 2.0
         },
         {
             "id": "57bec51a-d060-4ad3-b68f-cd57085b7ba5",
             "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
-            "name": "Prime video",
-            "merchant": "Amazon",
+            "name": "Streaming video",
+            "merchant": "Horizon",
             "transaction_type": "expense",
             "amount": 5.6
         },
@@ -46,7 +46,7 @@
             "id": "cd41b1d6-1534-4a44-9e7e-c36ceb557cd2",
             "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
             "name": "Freelancing",
-            "merchant": "Paypal",
+            "merchant": "EWallet",
             "transaction_type": "deposit",
             "amount": 20000
         },
@@ -61,16 +61,16 @@
         {
             "id": "38f8f49d-0625-46c9-9bb2-358de1514c4a",
             "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
-            "name": "Windows Linux Macos Deluxe",
-            "merchant": "Microsoft",
+            "name": "OS Deluxe",
+            "merchant": "MaicroS",
             "transaction_type": "withdraw",
             "amount": 888888
         },
         {
             "id": "aed0617a-a39d-4607-a201-c7de5bf482aa",
             "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
-            "name": "Netflix subscription - Jan",
-            "merchant": "Netflix",
+            "name": "Netfloz subscription - Jan",
+            "merchant": "Netfloz",
             "transaction_type": "expense",
             "amount": 4.0
         },
@@ -78,7 +78,7 @@
             "id": "f49f0942-a5de-43bd-bb10-f93f0989624b",
             "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
             "name": "Dinner",
-            "merchant": "Starbucks",
+            "merchant": "StackDucks",
             "transaction_type": "withdraw",
             "amount": 50.0
         },
@@ -86,7 +86,7 @@
             "id": "3ae6d90c-515d-4f0f-a1a7-97007a5c2060",
             "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
             "name": "Latte",
-            "merchant": "Starbucks",
+            "merchant": "StackDucks",
             "transaction_type": "withdraw",
             "amount": 5.0
         },
@@ -94,7 +94,7 @@
             "id": "eb2b58b5-2d8d-4213-a6ba-b88e5e5839f3",
             "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
             "name": "Lunch",
-            "merchant": "Starbucks",
+            "merchant": "StackDucks",
             "transaction_type": "withdraw",
             "amount": 37.45
         },
@@ -102,7 +102,7 @@
             "id": "3a91113c-fc74-4c55-931d-ec32dbf4c0aa",
             "user_id": "84551749-dc69-41c3-bce2-cfcedb3a1adc",
             "name": "Initial amount",
-            "merchant": "Chase",
+            "merchant": "Rich Bank",
             "transaction_type": "deposit",
             "amount": 80500
         },
@@ -110,7 +110,7 @@
             "id": "33fa9f4c-2ccd-47f8-8ada-a3b32ff3cb97",
             "user_id": "0c6a5750-01ae-4757-9e0a-72da6146c0f0",
             "name": "Membership",
-            "merchant": "Starbucks",
+            "merchant": "StackDucks",
             "transaction_type": "expense",
             "amount": 7.45
         }

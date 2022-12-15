@@ -38,7 +38,7 @@ class TestApiTransactionFilters(BaseCase):
 
         response = self.client.get(
             '/api/transactions/',
-            query_string={'merchant': 'Starbucks'}
+            query_string={'merchant': 'StackDucks'}
         )
         response_json = response.get_json()
 
@@ -46,7 +46,7 @@ class TestApiTransactionFilters(BaseCase):
         self.assertGreater(len(response_json['records']), 0)
         self.assertTrue(
             all(
-                item['merchant'] == 'Starbucks'
+                item['merchant'] == 'StackDucks'
                 for item in response_json['records']
             )
         )
@@ -59,7 +59,7 @@ class TestApiTransactionFilters(BaseCase):
         response = self.client.get(
             '/api/transactions/',
             query_string={
-                'merchant': 'Starbucks',
+                'merchant': 'StackDucks',
                 'transaction_type': 'expense'
             }
         )
@@ -69,7 +69,7 @@ class TestApiTransactionFilters(BaseCase):
         self.assertGreater(len(response_json['records']), 0)
         self.assertTrue(
             all(
-                item['merchant'] == 'Starbucks' and
+                item['merchant'] == 'StackDucks' and
                 item['transaction_type'] == 'expense'
                 for item in response_json['records']
             )
@@ -91,7 +91,7 @@ class TestApiTransactionFilters(BaseCase):
         response = self.client.get(
             '/api/transactions/',
             query_string={
-                'merchant': 'Starbucks',
+                'merchant': 'StackDucks',
                 'transaction_type': 'expense',
                 'created_at[ge]': start_date,
                 'created_at[le]': end_date
@@ -103,7 +103,7 @@ class TestApiTransactionFilters(BaseCase):
         self.assertGreater(len(response_json['records']), 0)
         self.assertTrue(
             all(
-                item['merchant'] == 'Starbucks' and
+                item['merchant'] == 'StackDucks' and
                 item['transaction_type'] == 'expense'
                 for item in response_json['records']
             )
