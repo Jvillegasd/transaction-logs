@@ -36,9 +36,9 @@ class QueryParameterParser(object):
             -   str = Query operator.
         """
 
-        complex_op_match = re.search('\[.*?\]', field)
+        complex_op_match: re.Match = re.search('\[.*?\]', field)
         if complex_op_match:
-            operator: str = complex_op_match.string
+            operator: str = complex_op_match.group(0)
             if operator in BRACKET_OPERATORS:
                 return operator.replace('[', '').replace(']', '')
             else:
